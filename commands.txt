@@ -4,12 +4,10 @@ shortest-path 9203201 9212318
 diameter
 scc
 end-graph
-graph 1992 1993
 out-degree
 diameter
 scc
 end-graph
-graph 1992 1994
 out-degree
 diameter
 scc
