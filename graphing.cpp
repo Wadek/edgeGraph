@@ -22,17 +22,18 @@ void graph(vector<string>* commands, vector<string>* dates, vector<string>* edge
     int endD = 0;
     int counter = 0;
 
+    //finds the range to be used
     for(int j = 0; j < datesCounter; j++) {
         int temp = atoi((*dates)[j].c_str());
         if( temp == endY+1) {
-            endD = floor(j/2);
+            endD = j/2;
             break;
         }
     }
 
     endD = endD+1;
+    int datesPatents[endD][400];
 
-    int datesPatents[endD][endD];
     for(int j = 0; j < endD-1; j++) {
         int temp = atoi((*dates)[counter].c_str());
         datesPatents[j][0] = temp;
@@ -40,39 +41,49 @@ void graph(vector<string>* commands, vector<string>* dates, vector<string>* edge
     }
 
     int offset = datesPatents[0][0];
+
+    //find edges and add them to data strcture
     for(int j = 0; j < edgesCounter; j+=2) {
         int row = atoi((*edges)[j].c_str())-offset;
         int index = 1;
+
+
         if(row <  endD) {
             while(datesPatents[row][index] != 0) {
                 index ++;
-                cout<<index<<endl;
             }
             datesPatents[row][index] = atoi((*edges)[j+1].c_str());
         }
     }
-    /*
-       for(int j = 0; j < endD; j++) {
-       counter = 1;
-       for(int k = 0; k < edgesCounter; k+=2) {
-       if(datesPatents[j][0] == atoi((*edges)[k].c_str())) {
-       datesPatents[j][counter] = atoi((*edges)[k+1].c_str());
-       counter++;
-       }
-       }
-       }
-       */
 
+    for(int j = 0; j < edgesCounter; j+=2) {
+        int row = atoi((*edges)[j].c_str())-offset;
+        int index = 1;
+
+
+        if(row <  endD) {
+            while(datesPatents[row][index] != 0) {
+                index ++;
+            }
+        }
+    }
+    // print out results
     for(int j = 0; j < endD-1; j++) {
-        counter = 1;
-        while(datesPatents[j][counter] != 0) {
-            cout<<datesPatents[j][counter]<<" ";
+        counter = 0;
+        while(datesPatents[j][counter] != 0 ) {
+            if(counter == 0 && datesPatents[j][counter+1] != 0) {
+                cout<<datesPatents[j][counter]<<" ";
+            }
+            else if(counter != 0 && datesPatents[j][counter] != 0) {
+                cout<<datesPatents[j][counter]<<" ";
+            }
             counter ++;
         }
-        if(counter != 1) {
+        if(datesPatents[j][1] != 0) {
             cout<<endl;
         }
     }
+    cout<<endl;
 }
 
 void fileToVector() {
